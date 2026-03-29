@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Educação Midiática – Desvendando Fake News</title>
+  <style>
+    :root{--bg:#f6fbff;--card:#fff;--text:#1f2937;--muted:#607080;--primary:#6d5efc;--secondary:#16c7b7;--accent:#ffb703;--border:#dbe4ee;--shadow:0 16px 40px rgba(47,86,137,.12);--radius:22px}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--text);background:radial-gradient(circle at top right,rgba(109,94,252,.12),transparent 30%),radial-gradient(circle at top left,rgba(22,199,183,.12),transparent 30%),var(--bg);line-height:1.6}
+    .logo{display:block;width:125px;max-width:100%;height:auto;background:white;padding:8px;border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,.18);justify-self:end}
+    header{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;padding:64px 22px 52px;position:relative;overflow:visible}
+    .wrap{max-width:1150px;margin:0 auto}
+    .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center}
+    .hero-copy{min-width:0;padding-top:6px}
+    h1{margin:0 0 14px;font-size:clamp(2rem,4.6vw,3.7rem);line-height:1.15;padding-top:4px}
+    .subtitle{max-width:900px;font-size:1.14rem;opacity:.96}
+    .badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+    .badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);padding:10px 14px;border-radius:999px;font-size:.92rem;font-weight:bold}
+    main{max-width:1150px;margin:0 auto 60px;padding:24px 16px 0}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:18px}
+    .grid-2{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}
+    .card h2{margin:0 0 12px;color:#4a3ff0;font-size:1.7rem}
+    .card h3{margin:0 0 8px;color:#0f8f82}
+    .callout{background:#fff8e6;border-left:6px solid var(--accent);border-radius:14px;padding:16px 18px;margin-top:16px}
+    .analysis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
+    .analysis .item{background:#f8fbff;border:1px solid var(--border);border-radius:16px;padding:15px}
+    .post-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:14px}
+    .post-head{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid #eef3f8;font-weight:bold}
+    .avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#111;font-weight:bold}
+    .av-green{background:#8adf61}.av-yellow{background:#ffc94d}
+    .checklist{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:12px}
+    .check{border:1px solid var(--border);background:#fbfdff;border-radius:16px;padding:14px}
+    .check strong{display:block;color:#4a3ff0;margin-bottom:6px}
+    .truth{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
+    .truth .box{border-radius:18px;padding:18px;color:#fff;box-shadow:var(--shadow)}
+    .v{background:linear-gradient(135deg,#16a34a,#4ade80)}.f{background:linear-gradient(135deg,#dc2626,#fb7185)}.d{background:linear-gradient(135deg,#d97706,#fbbf24)}
+    .interactive-card{border:2px solid #dbe4ee;border-radius:22px;overflow:hidden;background:#fff;box-shadow:var(--shadow)}
+    .news-image{width:100%;height:220px;object-fit:cover;display:block;background:#eef3f8;border-bottom:1px solid #dbe4ee}
+    .post-caption{padding:16px;font-size:1.05rem}.post-caption p{margin:8px 0 0}
+    .post-footer{padding:12px 16px 16px;color:var(--muted);font-size:.95rem;border-top:1px solid #eef3f8}
+    .analysis-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;padding:0 16px 4px}
+    .analysis-btn{border:none;border-radius:12px;padding:10px 14px;font-weight:bold;cursor:pointer;transition:.2s}
+    .btn-fato{background:#16a34a;color:#fff}.btn-fake{background:#dc2626;color:#fff}.btn-duvidosa{background:#d97706;color:#fff}
+    .analysis-btn:hover{transform:translateY(-1px);opacity:.95}
+    .feedback{margin:14px 16px 0;padding:12px 14px;border-radius:14px;font-weight:bold;display:none}
+    .feedback.show{display:block}.feedback.fato{background:#dcfce7;color:#166534;border:1px solid #86efac}.feedback.fake{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}.feedback.duvidosa{background:#fef3c7;color:#92400e;border:1px solid #fcd34d}
+    .justify-box{margin:14px 16px 16px}
+    .justify-box textarea{width:100%;min-height:90px;border:1.5px solid #bedac4;border-radius:14px;padding:12px 14px;font-size:15px;font-family:Arial,Helvetica,sans-serif;resize:vertical}
+    .source-link{display:inline-block;margin-top:10px;font-weight:bold;color:#4338ca;text-decoration:none}
+    .source-link:hover{text-decoration:underline}
+    .list{margin:10px 0 0;padding-left:20px}
+
+
+    .img-aula{width:100%;max-height:200px;object-fit:cover;border-radius:14px;margin:12px 0 10px 0;box-shadow:0 4px 12px rgba(0,0,0,.12);transition:transform 0.3s ease, box-shadow 0.3s ease}
+    .img-aula:hover{transform:scale(1.03);box-shadow:0 8px 20px rgba(0,0,0,.18)}
+    .img-legenda{font-size:.9rem;color:var(--muted);margin-top:-6px;margin-bottom:12px}
+    .img-atividade{background:#f8fbff;border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:14px}
+    .img-atividade p{margin:8px 0 0}
+    .img-atividade textarea{width:100%;min-height:90px;border:1.5px solid #bedac4;border-radius:12px;padding:10px;font-size:14px;font-family:Arial,Helvetica,sans-serif;resize:vertical;margin-top:8px}
+
+    .student-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:16px;margin-bottom:18px}
+    .field{display:flex;flex-direction:column;gap:6px}
+    .field label{font-weight:bold;color:#334155}
+    .field input,.field select,.field .fixed-date{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:14px;font-size:15px;font-family:Arial,Helvetica,sans-serif;background:#fff}
+    .field .fixed-date{min-height:48px;display:flex;align-items:center;color:#1f2937}
+    .challenge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:16px}
+    .challenge-box{border:1px solid var(--border);background:#fbfdff;border-radius:16px;padding:14px}
+    .challenge-box label{display:block;font-weight:bold;color:#334155;margin-bottom:8px}
+    .challenge-box textarea,.challenge-box select{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:14px;font-size:15px;font-family:Arial,Helvetica,sans-serif;background:#fff}
+    .challenge-box textarea{min-height:120px;resize:vertical}
+    .helper-text{margin-top:10px;color:var(--muted);font-size:.95rem}
+
+    .student-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:12px}
+    .student-summary .mini{background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px 12px}
+    footer{text-align:center;color:var(--muted);padding:8px 16px 32px;font-size:.95rem}
+
+    .analysis-toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center;margin-top:20px}
+    .action-btn{border:none;border-radius:14px;padding:12px 18px;font-size:1rem;font-weight:bold;cursor:pointer;box-shadow:var(--shadow);transition:.2s}
+    .action-btn:hover{transform:translateY(-1px);opacity:.96}
+    .btn-primary{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff}
+    .btn-secondary{background:#fff;color:#334155;border:1px solid var(--border)}
+    .result-box{margin-top:18px;padding:16px 18px;border-radius:16px;background:#eef6ff;border:1px solid #bfdbfe;display:none}
+    .result-box.show{display:block}
+    .result-box.error{background:#fff1f2;border-color:#fecdd3;color:#9f1239}
+    .answer-summary{display:grid;gap:14px;margin-top:14px}
+    .answer-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:14px 16px}
+    .answer-card h3{margin:0 0 8px;color:#4a3ff0;font-size:1.08rem}
+    .answer-meta{font-weight:bold;margin-bottom:8px;color:#334155}
+    .char-count{font-size:.9rem;color:var(--muted);text-align:right;margin-top:6px}
+    .char-count.ok{color:#166534;font-weight:bold}
+    .print-analysis-report{display:none}
+    .print-header{display:none}
+    .print-student-info{display:none}
+    .print-ref{display:none}
+    @page{size:A4;margin:1.2cm}
+    @media print{
+      :root{--text:#111827;--border:#cbd5e1;--card:#fff}
+      body{background:#fff;color:#111;font-size:12pt;line-height:1.4}
+      header,footer,.print-header,.grid-2,.analysis,.checklist,.truth,.callout,.helper-text,.result-box,.no-print{display:none !important}
+      main{max-width:100%;margin:0;padding:0}
+      main > section{display:none !important}
+      #investigationSection{display:block !important;margin:0;padding:0;border:none !important;box-shadow:none !important;background:#fff !important}
+      #investigationSection > h2,#investigationSection > p:first-of-type{display:block !important}
+      #investigationSection .post-row,#investigationSection .student-form,#investigationSection .challenge-grid{display:block !important}
+      #investigationSection .interactive-card,
+      #investigationSection .challenge-box,
+      #investigationSection .print-student-info,
+      #investigationSection .print-analysis-report{
+        display:block !important;
+        background:#fff;
+        box-shadow:none !important;
+        border:1px solid #94a3b8;
+        border-radius:10px;
+        padding:14px;
+        margin:0 0 12px 0;
+        break-inside:avoid;
+        page-break-inside:avoid;
+      }
+      #investigationSection .card,
+      #investigationSection .interactive-card{overflow:visible}
+      #investigationSection .post-head,
+      #investigationSection .news-image,
+      #investigationSection .post-footer,
+      #investigationSection .analysis-actions,
+      #investigationSection .feedback,
+      #investigationSection .source-link,
+      #investigationSection .char-count{display:none !important}
+      #investigationSection .post-caption{padding:0;font-size:11.5pt}
+      #investigationSection .post-caption p{margin:6px 0}
+      #investigationSection .post-caption strong{display:block;margin-bottom:4px}
+      #investigationSection .justify-box{margin:10px 0 0}
+      #investigationSection .justify-box label,
+      #investigationSection .field label,
+      #investigationSection .challenge-box label{color:#111}
+      #investigationSection .print-student-info .student-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+      #investigationSection .print-student-info .mini{border:1px solid #cbd5e1;border-radius:8px;padding:8px 10px}
+      #investigationSection input,
+      #investigationSection select,
+      #investigationSection textarea,
+      #investigationSection .fixed-date{
+        border:none !important;
+        background:#fff !important;
+        color:#111 !important;
+        padding:0 !important;
+        border-radius:0 !important;
+        box-shadow:none !important;
+        appearance:none;
+      }
+      #investigationSection textarea{min-height:120px;border-bottom:1px solid #cbd5e1 !important;padding-bottom:8px !important}
+      #investigationSection .student-form{margin-bottom:12px}
+      #investigationSection .field,.challenge-box{margin-bottom:10px}
+    }
+
+    @media (max-width:860px){
+      .grid-2{grid-template-columns:1fr}
+      header{padding:48px 16px 40px}
+      .hero-grid{grid-template-columns:1fr;gap:18px}
+      .logo{width:96px;justify-self:start}
+      h1{line-height:1.18}
+    }
+  
+
+  .logo-secundaria{width:85px;}
+  .logo-principal{width:70px;}
+}
+
+
+.logos-topo{
+  position:absolute;
+  top:18px;
+  right:22px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  z-index:1000;
+  background:rgba(255,255,255,.12);
+  padding:10px 12px;
+  border-radius:18px;
+  backdrop-filter:blur(2px);
+}
+
+.logos-topo img{
+  display:block;
+  height:auto;
+  object-fit:contain;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,.18));
+}
+
+.logo-secundaria{
+  width:108px;
+}
+
+.logo-principal{
+  width:108px;
+}
+
+@media (max-width:860px){
+  .logos-topo{
+    top:10px;
+    right:10px;
+    gap:6px;
+    padding:8px 9px;
+    border-radius:14px;
+  }
+
+  .logo-secundaria,
+  .logo-principal{
+    width:82px;
+  }
+}
+
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <h1>🎯 Educação Midiática<br>Desvendando Fake News</h1>
+        <div class="subtitle">Aqui você vai aprender a investigar, desconfiar e pensar antes de clicar em “compartilhar”.</div>
+        <div class="badges">
+          <span class="badge">📱 Mídias digitais</span>
+          <span class="badge">🧠 Confiabilidade</span>
+          <span class="badge">⚖️ Ética na internet</span>
+          <span class="badge">🔁 Curtidas e compartilhamentos</span>
+        </div>
+      </div>
+      <div class="logos-topo">
+  <img src="toledo.png" class="logo-secundaria">
+  <img src="jacson.jpg" class="logo-principal">
+</div>
+    </div>
+  </header>
+  <main>
+    <section class="print-header">
+      <h1>Educação Midiática – Desvendando Fake News</h1>
+      <p>Material de apoio para leitura, análise crítica e discussão em sala de aula.</p>
+      <div class="print-ref">
+        <strong>Notícias analisadas:</strong>
+        <ol>
+          <li>“Foto mostra criança escalando míssil na Síria em meio a conflito no Oriente Médio”.</li>
+          <li>“Lei Felca causará bloqueio de iPhones”.</li>
+        </ol>
+      </div>
+    </section>
+    <section class="grid-2">
+      <article class="card">
+        <h2>💥 Fato ou Fake? Você realmente sabe identificar?</h2>
+        <p>Todos os dias você vê notícias, vídeos, posts e mensagens no celular. Mas pare um segundo e pense:</p>
+        <div class="callout">👉 Você já compartilhou algo sem saber se era verdade?<br>👉 Já acreditou em algo só porque muita gente comentou ou curtiu?</div>
+        <p>A internet faz parte da sua vida: você aprende, conversa, se diverte… mas também pode ser enganado sem perceber.</p>
+        <p>⚠️ O problema não é usar a internet.<br>👉 O problema é acreditar sem analisar.</p>
+        <p><strong>Nesta aula, você vai aprender a:</strong></p>
+        <ul class="list">
+          <li>✔ desconfiar</li>
+          <li>✔ investigar</li>
+          <li>✔ analisar antes de acreditar</li>
+          <li>✔ pensar antes de compartilhar</li>
+        </ul>
+        <div class="callout"><strong>Ideia central:</strong> na internet, nem tudo é verdade. Quem não questiona pode acabar espalhando fake news sem perceber.</div>
+      </article>
+      <aside class="card">
+        <h2>🎯 O que a aula propõe</h2>
+        <ul class="list">
+          <li>Analisar postagens para avaliar sua confiabilidade.</li>
+          <li>Classificar conteúdos como verdadeiros, falsos ou duvidosos.</li>
+          <li>Perceber como curtidas, comentários e compartilhamentos ampliam a visibilidade.</li>
+          <li>Refletir sobre responsabilidade e ética no uso da internet.</li>
+        </ul>
+        <img src="tribunal.jpeg" alt="Imagem representando análise crítica de informações" class="img-aula">
+        <p class="img-legenda">
+          🔍 Assim como em um tribunal, analisar informações exige provas, contexto e responsabilidade.
+          <br><br>
+          🔗 <a href="https://www.tre-pr.jus.br/comunicacao/noticias/2022/Outubro/midia-nacional-repercute-checagens-do-tre-pr-no-gralha-confere" target="_blank" class="fonte-link">Acesse a fonte da imagem</a>
+        </p>
+        <div class="img-atividade">
+          <strong>💡 Atividade guiada (obrigatória):</strong>
+          <p>Após acessar a fonte acima, responda:</p>
+          <label for="fonteAnalise">👉 O que essa fonte explica sobre o processo de checagem de informações?</label>
+          <textarea id="fonteAnalise" placeholder="Explique com base no que você leu..."></textarea>
+          <label for="fonteConfianca">👉 Essa fonte aumenta sua confiança na informação? Por quê?</label>
+          <textarea id="fonteConfianca" placeholder="Justifique sua resposta..."></textarea>
+        </div>
+      </aside>
+    </section>
+    <section class="card">
+      <h2>💥 Por que esse tipo de postagem viraliza?</h2>
+      <div class="analysis">
+        <div class="item"><h3>🚨 Sensacionalismo</h3>Notícias exageradas chamam atenção porque parecem impressionantes, urgentes ou chocantes.</div>
+        <div class="item"><h3>👍 Engajamento</h3>Curtidas, comentários e compartilhamentos fazem a postagem alcançar mais pessoas.</div>
+        <div class="item"><h3>🧩 Confiança automática</h3>Quando alguém conhecido compartilha, muita gente acredita sem checar.</div>
+        <div class="item"><h3>⚠️ Risco</h3>Conteúdos falsos ou manipulados podem circular como se fossem verdadeiros.</div>
+      </div>
+    </section>
+    <section class="card">
+      <h2>🧠 Como analisar uma postagem</h2>
+      <div class="checklist">
+        <div class="check"><strong>1. Fonte confiável?</strong>O perfil, jornal, site ou pessoa que publicou é reconhecido e confiável?</div>
+        <div class="check"><strong>2. Autor conhecido?</strong>Trata-se de especialista, pesquisador, instituição ou apenas opinião solta?</div>
+        <div class="check"><strong>3. Há provas?</strong>Existem links, pesquisas, dados, jornais ou referências que sustentem a postagem?</div>
+        <div class="check"><strong>4. É recente?</strong>A informação está atualizada ou circula fora do tempo e do contexto?</div>
+        <div class="check"><strong>5. Linguagem exagerada?</strong>O texto usa palavras fortes demais, promessas milagrosas ou urgência suspeita?</div>
+        <div class="check"><strong>6. Imagem fora de contexto?</strong>Fotos, vídeos e áudios podem ser reais, mas usados para enganar.</div>
+        <div class="check"><strong>7. Eu compartilharia?</strong>Essa postagem informa ou pode espalhar desinformação e prejudicar alguém?</div>
+      </div>
+    </section>
+    <section class="grid-2">
+      <article class="card">
+        <h2>📊 Classificação</h2>
+        <div class="truth">
+          <div class="box v"><strong>✔ Verdadeira</strong><br>Após pesquisar em outras fontes, não há indícios de invenção ou manipulação.</div>
+          <div class="box f"><strong>❌ Falsa</strong><br>A análise mostra informações incorretas, inventadas ou distorcidas.</div>
+          <div class="box d"><strong>⚠️ Duvidosa</strong><br>Mistura elementos reais com exageros, lacunas, distorções ou vieses.</div>
+        </div>
+      </article>
+      <article class="card">
+        <h2>🚨 Antes de compartilhar… pense!</h2>
+        <div class="callout">📱 Você não é só usuário da internet…<br>👉 você também é responsável pelo que circula nela.</div>
+        <p>Cada curtida, comentário ou compartilhamento pode levar uma informação ainda mais longe. E aí vem a pergunta:</p>
+        <div class="callout">💭 <strong>Você está espalhando verdade… ou ajudando uma mentira a crescer?</strong></div>
+        <ul class="list">
+          <li>⚠️ Fake news pode causar medo, confusão e até prejudicar pessoas.</li>
+          <li>🚫 Nem tudo que aparece na internet merece ser compartilhado.</li>
+          <li>🧠 Quem usa a internet com consciência pensa antes de clicar.</li>
+        </ul>
+        <div class="callout">💥 <strong>Na dúvida, não compartilhe.</strong><br>✔ Verifique<br>✔ Analise<br>✔ Decida com responsabilidade</div>
+      </article>
+    </section>
+
+    <section class="card" id="investigationSection">
+      <h2>📲 Hora de investigar: fato ou fake?</h2>
+      <p>Agora é com você. Observe com atenção, leia a notícia e analise:</p>
+      <div class="callout">👉 Isso é <strong>fato</strong> ou <strong>fake</strong>?<br>👉 Quais pistas ajudam você a chegar nessa conclusão?</div>
+      <div class="student-form">
+        <div class="field">
+          <label for="studentName">🧾 Nome do aluno</label>
+          <input type="text" id="studentName" placeholder="Digite seu nome completo">
+        </div>
+        <div class="field">
+          <label for="studentNumber">🔢 Número de chamada</label>
+          <input type="text" id="studentNumber" placeholder="Ex.: 12">
+        </div>
+        <div class="field">
+          <label for="studentClass">🏫 Série</label>
+          <select id="studentClass">
+            <option value="">Selecione a série</option>
+            <option>6º ano</option>
+            <option>7º ano</option>
+            <option>8º ano</option>
+            <option>9º ano</option>
+            <option>1º ano do Ensino Médio</option>
+            <option>2º ano do Ensino Médio</option>
+            <option>3º ano do Ensino Médio</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>📅 Data</label>
+          <div id="activityDate" class="fixed-date" aria-live="polite"></div>
+        </div>
+      </div>
+      <section id="printStudentInfo" class="print-student-info"></section>
+      <div class="post-row">
+        <article class="interactive-card">
+          <div class="post-head"><div class="avatar av-green">🔍</div><strong>Análise 1</strong></div>
+          <img src="menino.jpg" alt="Imagem da notícia sobre criança escalando míssil" class="news-image">
+          <div class="post-caption">
+            <strong>📰 Título da notícia:</strong>
+            <p>“Foto mostra criança escalando míssil na Síria em meio a conflito no Oriente Médio”</p>
+            <a class="source-link" href="https://g1.globo.com/fato-ou-fake/noticia/2026/03/06/e-fato-foto-mostra-crianca-escalando-missil-na-siria-meio-a-conflito-no-oriente-medio.ghtml" target="_blank">🔗 Abrir notícia completa</a>
+          </div>
+          <div class="post-footer">💡 <strong>Pense antes de responder:</strong><br>A imagem está em contexto?<br>A fonte explica claramente o que aconteceu?</div>
+          <div class="analysis-actions">
+            <button class="analysis-btn btn-fato" onclick="analisarResposta('fb1','fato')">✔ Fato</button>
+            <button class="analysis-btn btn-fake" onclick="analisarResposta('fb1','fake')">❌ Fake</button>
+            <button class="analysis-btn btn-duvidosa" onclick="analisarResposta('fb1','duvidosa')">⚠️ Duvidosa</button>
+          </div>
+          <div id="fb1" class="feedback"></div>
+          <div class="justify-box">
+            <label for="j1"><strong>📝 Explique sua escolha:</strong></label>
+            <textarea id="j1" placeholder="Quais pistas você usou? O que te fez decidir?"></textarea>
+            <div class="char-count" id="count-j1">0 caracteres</div>
+          </div>
+        </article>
+        <article class="interactive-card">
+          <div class="post-head"><div class="avatar av-yellow">⚠️</div><strong>Análise 2</strong></div>
+          <img src="felca.jpg" alt="Imagem da notícia sobre bloqueio de iPhones" class="news-image">
+          <div class="post-caption">
+            <strong>📰 Título da notícia:</strong>
+            <p>“Lei Felca causará bloqueio de iPhones”</p>
+            <a class="source-link" href="https://g1.globo.com/fato-ou-fake/noticia/2026/03/25/e-fake-que-lei-felca-causara-bloqueio-de-iphones.ghtml" target="_blank">🔗 Abrir notícia completa</a>
+          </div>
+          <div class="post-footer">💡 <strong>Pense antes de responder:</strong><br>O título é alarmista?<br>A notícia apresenta base real ou manipulação?</div>
+          <div class="analysis-actions">
+            <button class="analysis-btn btn-fato" onclick="analisarResposta('fb2','fato')">✔ Fato</button>
+            <button class="analysis-btn btn-fake" onclick="analisarResposta('fb2','fake')">❌ Fake</button>
+            <button class="analysis-btn btn-duvidosa" onclick="analisarResposta('fb2','duvidosa')">⚠️ Duvidosa</button>
+          </div>
+          <div id="fb2" class="feedback"></div>
+          <div class="justify-box">
+            <label for="j2"><strong>📝 Explique sua escolha:</strong></label>
+            <textarea id="j2" placeholder="Explique por que você classificou assim..."></textarea>
+            <div class="char-count" id="count-j2">0 caracteres</div>
+          </div>
+        </article>
+      </div>
+      <div class="callout"><strong>💥 Desafio final:</strong> agora vá além da justificativa de cada notícia e faça uma síntese crítica do que você observou nas duas análises.</div>
+      <div class="challenge-grid">
+        <div class="challenge-box">
+          <label for="d1">👉 Entre as pistas analisadas, qual foi a mais importante para perceber se a notícia era confiável?</label>
+          <textarea id="d1" placeholder="Explique qual pista pesou mais na sua análise das notícias..."></textarea>
+        </div>
+        <div class="challenge-box">
+          <label for="d2">👉 No conjunto, as fontes pareceram confiáveis? Por quê?</label>
+          <textarea id="d2" placeholder="Comente o que fez você confiar ou desconfiar das fontes..."></textarea>
+        </div>
+        <div class="challenge-box">
+          <label for="d3">👉 Você compartilharia alguma dessas postagens? Justifique sua decisão.</label>
+          <textarea id="d3" placeholder="Explique se você compartilharia ou não e por quê..."></textarea>
+        </div>
+      </div>
+      <div class="helper-text">Preencha seus dados, marque a classificação das notícias, escreva respostas completas e depois clique em Gerar PDF. A data do dia aparece automaticamente.</div>
+      <div class="analysis-toolbar no-print">
+        <button class="action-btn btn-primary" type="button" onclick="gerarPDF()">🖨️ Gerar PDF</button>
+      </div>
+      <div id="resultadoAnalise" class="result-box"></div>
+      <section id="printAnalysisReport" class="print-analysis-report"></section>
+    </section>
+
+    <section class="card">
+      <h2>📌 Conclusão</h2>
+      <p>A principal mensagem da aula é simples e poderosa: pensar antes de acreditar e verificar antes de compartilhar. Em uma sociedade conectada, educação midiática não é detalhe, mas uma competência essencial para participar do mundo digital de maneira crítica, ética e responsável.</p>
+      <p>Na sequência didática, a próxima etapa é criar um post responsável, aplicando os critérios estudados e respeitando a verdade e os direitos dos usuários.</p>
+    </section>
+  </main>
+  <footer>Página educativa produzida a partir da aula 09, LRCO  - ED DIG COMP PROG E ROBOTICA.</footer>
+  <script>
+    function analisarResposta(id, tipo) {
+      const box = document.getElementById(id);
+      box.className = "feedback show " + tipo;
+      box.dataset.choice = tipo;
+      if (tipo === "fato") {
+        box.innerHTML = "✔ <strong>Fato</strong>: a informação parece confirmada por fonte confiável e contexto claro.";
+      } else if (tipo === "fake") {
+        box.innerHTML = "❌ <strong>Fake</strong>: há sinais de falsidade, exagero ou distorção da informação.";
+      } else {
+        box.innerHTML = "⚠️ <strong>Duvidosa</strong>: ainda faltam provas ou contexto suficiente para confiar.";
+      }
+    }
+
+    function labelEscolha(choice) {
+      if (choice === 'fato') return 'Fato';
+      if (choice === 'fake') return 'Fake';
+      if (choice === 'duvidosa') return 'Duvidosa';
+      return 'Não selecionado';
+    }
+
+    function getEscolha(feedbackId) {
+      const box = document.getElementById(feedbackId);
+      return box ? (box.dataset.choice || '') : '';
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;')
+        .replace(/\n/g, '<br>');
+    }
+
+    function atualizarContador(textareaId) {
+      const textarea = document.getElementById(textareaId);
+      const counter = document.getElementById('count-' + textareaId);
+      if (!textarea || !counter) return;
+      const total = textarea.value.trim().length;
+      counter.textContent = total + ' caracteres';
+      counter.classList.toggle('ok', total >= 20);
+    }
+
+    function formatarData(valor) {
+      if (!valor) return 'Não informada';
+      if (valor.includes('/')) return valor;
+      const partes = valor.split('-');
+      if (partes.length !== 3) return valor;
+      return `${partes[2]}/${partes[1]}/${partes[0]}`;
+    }
+
+    function montarIdentificacaoHTML() {
+      const nome = document.getElementById('studentName').value.trim() || 'Não informado';
+      const numero = document.getElementById('studentNumber').value.trim() || 'Não informado';
+      const turma = document.getElementById('studentClass').value.trim() || 'Não informada';
+      const data = formatarData(document.getElementById('activityDate').textContent.trim());
+
+      return `
+        <h2 style="margin:0 0 10px;color:#111;font-size:1.2rem;">Identificação do aluno</h2>
+        <div class="student-summary">
+          <div class="mini"><strong>Nome</strong><br>${escapeHtml(nome)}</div>
+          <div class="mini"><strong>Número de chamada</strong><br>${escapeHtml(numero)}</div>
+          <div class="mini"><strong>Série</strong><br>${escapeHtml(turma)}</div>
+          <div class="mini"><strong>Data</strong><br>${escapeHtml(data)}</div>
+        </div>`;
+    }
+
+    function montarRelatorioHTML() {
+      const escolha1 = labelEscolha(getEscolha('fb1'));
+      const escolha2 = labelEscolha(getEscolha('fb2'));
+      const texto1 = document.getElementById('j1').value.trim();
+      const texto2 = document.getElementById('j2').value.trim();
+      const d1 = document.getElementById('d1').value.trim();
+      const d2 = document.getElementById('d2').value.trim();
+      const d3 = document.getElementById('d3').value.trim();
+      const fonteAnalise = document.getElementById('fonteAnalise').value.trim();
+      const fonteConfianca = document.getElementById('fonteConfianca').value.trim();
+
+      return `
+        <div class="card" style="box-shadow:none;margin-top:14px;">
+          <h2>Relatório de Análise de Fake News</h2>
+          <div class="answer-summary">
+            <div class="answer-card">
+              <h3>Análise da fonte</h3>
+              <p><strong>O que a fonte explica:</strong><br>${escapeHtml(fonteAnalise || 'Sem resposta registrada.')}</p>
+              <p><strong>Confiança na fonte:</strong><br>${escapeHtml(fonteConfianca || 'Sem resposta registrada.')}</p>
+            </div>
+            <div class="answer-card">
+              <h3>Análise 1</h3>
+              <div class="answer-meta"><strong>Notícia:</strong> “Foto mostra criança escalando míssil na Síria em meio a conflito no Oriente Médio”.</div>
+              <div class="answer-meta">Classificação: ${escapeHtml(escolha1)}</div>
+              <div>${escapeHtml(texto1 || 'Sem justificativa registrada.')}</div>
+            </div>
+            <div class="answer-card">
+              <h3>Análise 2</h3>
+              <div class="answer-meta"><strong>Notícia:</strong> “Lei Felca causará bloqueio de iPhones”.</div>
+              <div class="answer-meta">Classificação: ${escapeHtml(escolha2)}</div>
+              <div>${escapeHtml(texto2 || 'Sem justificativa registrada.')}</div>
+            </div>
+            <div class="answer-card">
+              <h3>Desafio final</h3>
+              <p><strong>Pista mais importante:</strong><br>${escapeHtml(d1 || 'Sem resposta registrada.')}</p>
+              <p><strong>As fontes pareceram confiáveis?</strong><br>${escapeHtml(d2 || 'Sem resposta registrada.')}</p>
+              <p><strong>Você compartilharia alguma dessas postagens?</strong><br>${escapeHtml(d3 || 'Sem resposta registrada.')}</p>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function atualizarSaidaParaImpressao() {
+      document.getElementById('printStudentInfo').innerHTML = montarIdentificacaoHTML();
+      document.getElementById('printAnalysisReport').innerHTML = montarRelatorioHTML();
+    }
+
+    function gerarPDF() {
+      atualizarSaidaParaImpressao();
+      const resultado = document.getElementById('resultadoAnalise');
+      resultado.className = 'result-box show';
+      resultado.innerHTML = '<strong>Pronto.</strong><br>O relatório foi organizado com suas respostas. Na janela que abrir, escolha <strong>Salvar em PDF</strong>.';
+      setTimeout(function() {
+        window.focus();
+        window.print();
+      }, 150);
+    }
+
+    window.addEventListener('DOMContentLoaded', function() {
+      ['j1','j2'].forEach(function(id) {
+        const textarea = document.getElementById(id);
+        if (!textarea) return;
+        atualizarContador(id);
+        textarea.addEventListener('input', function() {
+          atualizarContador(id);
+        });
+      });
+
+      const dateField = document.getElementById('activityDate');
+      if (dateField) {
+        const hoje = new Date();
+        const dd = String(hoje.getDate()).padStart(2, '0');
+        const mm = String(hoje.getMonth() + 1).padStart(2, '0');
+        const yyyy = hoje.getFullYear();
+        dateField.textContent = `${dd}/${mm}/${yyyy}`;
+      }
+
+      atualizarSaidaParaImpressao();
+    });
+  </script>
+</body>
+</html>
