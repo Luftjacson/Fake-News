@@ -5,99 +5,831 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Educação Midiática – Desvendando Fake News</title>
   <style>
-    :root{--bg:#f6fbff;--card:#fff;--text:#1f2937;--muted:#607080;--primary:#6d5efc;--secondary:#16c7b7;--accent:#ffb703;--border:#dbe4ee;--shadow:0 16px 40px rgba(47,86,137,.12);--radius:22px}
+    :root{
+      --bg:#f4f7fb;
+      --bg-soft:#eef3f9;
+      --card:#ffffff;
+      --text:#1f2d3d;
+      --muted:#5f6f82;
+      --primary:#0f3b78;
+      --primary-2:#1b5ea7;
+      --primary-3:#174a84;
+      --secondary:#2f7cc0;
+      --accent:#f2c94c;
+      --accent-soft:#fff6dd;
+      --success:#1f8f4d;
+      --danger:#b93b2f;
+      --warning:#c97a11;
+      --border:#d6e0eb;
+      --border-soft:#e8eef5;
+      --shadow:0 8px 22px rgba(15,59,120,.08);
+      --shadow-soft:0 3px 10px rgba(15,59,120,.05);
+      --radius:14px;
+      --radius-soft:10px;
+    }
+
     *{box-sizing:border-box}
-    body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--text);background:radial-gradient(circle at top right,rgba(109,94,252,.12),transparent 30%),radial-gradient(circle at top left,rgba(22,199,183,.12),transparent 30%),var(--bg);line-height:1.6}
-    .logo{display:block;width:125px;max-width:100%;height:auto;background:white;padding:8px;border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,.18);justify-self:end}
-    header{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;padding:64px 22px 52px;position:relative;overflow:visible}
-    .wrap{max-width:1150px;margin:0 auto}
-    .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center}
-    .hero-copy{min-width:0;padding-top:6px}
-    h1{margin:0 0 14px;font-size:clamp(2rem,4.6vw,3.7rem);line-height:1.15;padding-top:4px}
-    .subtitle{max-width:900px;font-size:1.14rem;opacity:.96}
-    .badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
-    .badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);padding:10px 14px;border-radius:999px;font-size:.92rem;font-weight:bold}
-    main{max-width:1150px;margin:0 auto 60px;padding:24px 16px 0}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:18px}
-    .grid-2{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}
-    .card h2{margin:0 0 12px;color:#4a3ff0;font-size:1.7rem}
-    .card h3{margin:0 0 8px;color:#0f8f82}
-    .callout{background:#fff8e6;border-left:6px solid var(--accent);border-radius:14px;padding:16px 18px;margin-top:16px}
-    .analysis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
-    .analysis .item{background:#f8fbff;border:1px solid var(--border);border-radius:16px;padding:15px}
-    .post-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:14px}
-    .post-head{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid #eef3f8;font-weight:bold}
-    .avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#111;font-weight:bold}
-    .av-green{background:#8adf61}.av-yellow{background:#ffc94d}
-    .checklist{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:12px}
-    .check{border:1px solid var(--border);background:#fbfdff;border-radius:16px;padding:14px}
-    .check strong{display:block;color:#4a3ff0;margin-bottom:6px}
-    .truth{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
-    .truth .box{border-radius:18px;padding:18px;color:#fff;box-shadow:var(--shadow)}
-    .v{background:linear-gradient(135deg,#16a34a,#4ade80)}.f{background:linear-gradient(135deg,#dc2626,#fb7185)}.d{background:linear-gradient(135deg,#d97706,#fbbf24)}
-    .interactive-card{border:2px solid #dbe4ee;border-radius:22px;overflow:hidden;background:#fff;box-shadow:var(--shadow)}
-    .news-image{width:100%;height:220px;object-fit:cover;display:block;background:#eef3f8;border-bottom:1px solid #dbe4ee}
-    .post-caption{padding:16px;font-size:1.05rem}.post-caption p{margin:8px 0 0}
-    .post-footer{padding:12px 16px 16px;color:var(--muted);font-size:.95rem;border-top:1px solid #eef3f8}
-    .analysis-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;padding:0 16px 4px}
-    .analysis-btn{border:none;border-radius:12px;padding:10px 14px;font-weight:bold;cursor:pointer;transition:.2s}
-    .btn-fato{background:#16a34a;color:#fff}.btn-fake{background:#dc2626;color:#fff}.btn-duvidosa{background:#d97706;color:#fff}
-    .analysis-btn:hover{transform:translateY(-1px);opacity:.95}
-    .feedback{margin:14px 16px 0;padding:12px 14px;border-radius:14px;font-weight:bold;display:none}
-    .feedback.show{display:block}.feedback.fato{background:#dcfce7;color:#166534;border:1px solid #86efac}.feedback.fake{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}.feedback.duvidosa{background:#fef3c7;color:#92400e;border:1px solid #fcd34d}
-    .justify-box{margin:14px 16px 16px}
-    .justify-box textarea{width:100%;min-height:90px;border:1.5px solid #bedac4;border-radius:14px;padding:12px 14px;font-size:15px;font-family:Arial,Helvetica,sans-serif;resize:vertical}
-    .source-link{display:inline-block;margin-top:10px;font-weight:bold;color:#4338ca;text-decoration:none}
-    .source-link:hover{text-decoration:underline}
-    .list{margin:10px 0 0;padding-left:20px}
 
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      color:var(--text);
+      background:linear-gradient(180deg,#f8fbfe 0%,#f4f7fb 100%);
+      line-height:1.6;
+    }
 
-    .img-aula{width:100%;max-height:200px;object-fit:cover;border-radius:14px;margin:12px 0 10px 0;box-shadow:0 4px 12px rgba(0,0,0,.12);transition:transform 0.3s ease, box-shadow 0.3s ease}
-    .img-aula:hover{transform:scale(1.03);box-shadow:0 8px 20px rgba(0,0,0,.18)}
-    .img-legenda{font-size:.9rem;color:var(--muted);margin-top:-6px;margin-bottom:12px}
-    .img-atividade{background:#f8fbff;border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:14px}
+    .govbar{
+      background:#08294f;
+      color:#ffffff;
+      font-size:.84rem;
+      border-bottom:1px solid rgba(255,255,255,.12);
+    }
+
+    .govbar .wrap{
+      max-width:1180px;
+      margin:0 auto;
+      padding:8px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+
+    .govbar-left{
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+
+    .govbar-right{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      color:#d8e5f4;
+      font-size:.82rem;
+    }
+
+    .topbar{
+      background:#0d345f;
+      color:#f6f9fd;
+      text-align:center;
+      padding:10px 16px;
+      font-size:.88rem;
+      letter-spacing:.15px;
+      border-bottom:1px solid rgba(255,255,255,.1);
+    }
+
+    header{
+      background:linear-gradient(180deg,var(--primary) 0%, var(--primary-2) 100%);
+      color:#fff;
+      padding:18px 22px 34px;
+      position:relative;
+      overflow:visible;
+      box-shadow:0 8px 20px rgba(8,41,79,.12);
+      border-bottom:4px solid var(--accent);
+    }
+
+    .wrap{
+      max-width:1180px;
+      margin:0 auto;
+    }
+
+    .hero-meta{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:18px;
+      flex-wrap:wrap;
+      padding:0 0 18px;
+      border-bottom:1px solid rgba(255,255,255,.14);
+      margin-bottom:22px;
+    }
+
+    .hero-meta-left{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+
+    .hero-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.16);
+      color:#f7fbff;
+      padding:7px 12px;
+      border-radius:999px;
+      font-size:.82rem;
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto;
+      gap:28px;
+      align-items:center;
+    }
+
+    .hero-copy{
+      min-width:0;
+      padding-top:2px;
+    }
+
+    .hero-kicker{
+      display:inline-block;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.18);
+      padding:7px 12px;
+      border-radius:999px;
+      font-size:.82rem;
+      font-weight:700;
+      letter-spacing:.6px;
+      text-transform:uppercase;
+      margin-bottom:14px;
+    }
+
+    h1{
+      margin:0 0 14px;
+      font-size:clamp(2rem,4.2vw,3.3rem);
+      line-height:1.12;
+      font-weight:700;
+    }
+
+    .subtitle{
+      max-width:860px;
+      font-size:1.05rem;
+      opacity:.97;
+      color:#edf4fc;
+    }
+
+    .badges{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:20px;
+    }
+
+    .badge{
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.16);
+      padding:9px 13px;
+      border-radius:999px;
+      font-size:.9rem;
+      font-weight:700;
+      color:#f8fbff;
+    }
+
+    .logos-topo{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+      background:rgba(255,255,255,.10);
+      padding:12px 14px;
+      border-radius:16px;
+      backdrop-filter:blur(2px);
+      border:1px solid rgba(255,255,255,.16);
+      box-shadow:0 8px 20px rgba(0,0,0,.10);
+      min-width:148px;
+    }
+
+    .logos-topo img{
+      display:block;
+      height:auto;
+      object-fit:contain;
+      filter:drop-shadow(0 2px 6px rgba(0,0,0,.14));
+    }
+
+    .logo-secundaria{width:108px}
+    .logo-principal{width:108px}
+
+    .aula-identidade{
+      max-width:1180px;
+      margin:-18px auto 0;
+      padding:0 16px;
+      position:relative;
+      z-index:3;
+    }
+
+    .aula-box{
+      background:#ffffff;
+      border:1px solid var(--border);
+      border-radius:14px;
+      box-shadow:var(--shadow);
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:14px;
+      padding:18px 20px;
+    }
+
+    .aula-box h2{
+      margin:0 0 8px;
+      font-size:1.08rem;
+      color:var(--primary);
+    }
+
+    .aula-box p{
+      margin:0;
+      color:var(--muted);
+      font-size:.96rem;
+    }
+
+    .aula-meta{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;
+    }
+
+    .meta-item{
+      background:#f8fbff;
+      border:1px solid var(--border-soft);
+      border-radius:10px;
+      padding:10px 12px;
+    }
+
+    .meta-item strong{
+      display:block;
+      color:var(--primary);
+      font-size:.82rem;
+      margin-bottom:4px;
+      text-transform:uppercase;
+      letter-spacing:.3px;
+    }
+
+    .meta-item span{
+      color:#334155;
+      font-size:.95rem;
+      font-weight:700;
+    }
+
+    main{
+      max-width:1180px;
+      margin:22px auto 60px;
+      padding:0 16px 0;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow-soft);
+      padding:24px;
+      margin-bottom:18px;
+    }
+
+    .card h2{
+      margin:0 0 12px;
+      color:var(--primary);
+      font-size:1.5rem;
+      line-height:1.22;
+    }
+
+    .card h3{
+      margin:0 0 8px;
+      color:var(--primary-2);
+      font-size:1.05rem;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:18px;
+    }
+
+    .section-tag{
+      display:inline-block;
+      margin-bottom:12px;
+      padding:5px 10px;
+      border-radius:999px;
+      background:#edf4fc;
+      color:var(--primary);
+      font-size:.78rem;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.5px;
+    }
+
+    .callout{
+      background:var(--accent-soft);
+      border-left:5px solid var(--accent);
+      border-radius:12px;
+      padding:16px 18px;
+      margin-top:16px;
+      border-top:1px solid #efe3b5;
+      border-right:1px solid #efe3b5;
+      border-bottom:1px solid #efe3b5;
+    }
+
+    .analysis{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:14px;
+      margin-top:14px;
+    }
+
+    .analysis .item{
+      background:#fbfdff;
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:15px;
+    }
+
+    .checklist{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+      gap:12px;
+      margin-top:12px;
+    }
+
+    .check{
+      border:1px solid var(--border);
+      background:#fbfdff;
+      border-radius:12px;
+      padding:14px;
+    }
+
+    .check strong{
+      display:block;
+      color:var(--primary);
+      margin-bottom:6px;
+    }
+
+    .truth{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:14px;
+      margin-top:14px;
+    }
+
+    .truth .box{
+      border-radius:14px;
+      padding:18px;
+      color:#fff;
+      box-shadow:var(--shadow);
+    }
+
+    .v{background:linear-gradient(180deg,#1f8f4d,#36a965)}
+    .f{background:linear-gradient(180deg,#b93b2f,#d45b51)}
+    .d{background:linear-gradient(180deg,#c97a11,#e0a033)}
+
+    .img-aula{
+      width:100%;
+      max-height:210px;
+      object-fit:cover;
+      border-radius:12px;
+      margin:12px 0 10px 0;
+      box-shadow:0 4px 10px rgba(0,0,0,.10);
+      transition:transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .img-aula:hover{
+      transform:scale(1.02);
+      box-shadow:0 8px 18px rgba(0,0,0,.14);
+    }
+
+    .img-legenda{
+      font-size:.9rem;
+      color:var(--muted);
+      margin-top:-6px;
+      margin-bottom:12px;
+    }
+
+    .img-atividade{
+      background:#fffdf6;
+      border:1px solid #f0e3b0;
+      border-left:5px solid var(--accent);
+      border-radius:12px;
+      padding:14px;
+      margin-bottom:14px;
+      box-shadow:0 4px 12px rgba(242,201,76,.10);
+    }
+
     .img-atividade p{margin:8px 0 0}
-    .img-atividade textarea{width:100%;min-height:90px;border:1.5px solid #bedac4;border-radius:12px;padding:10px;font-size:14px;font-family:Arial,Helvetica,sans-serif;resize:vertical;margin-top:8px}
 
-    .student-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:16px;margin-bottom:18px}
-    .field{display:flex;flex-direction:column;gap:6px}
-    .field label{font-weight:bold;color:#334155}
-    .field input,.field select,.field .fixed-date{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:14px;font-size:15px;font-family:Arial,Helvetica,sans-serif;background:#fff}
-    .field .fixed-date{min-height:48px;display:flex;align-items:center;color:#1f2937}
-    .challenge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:16px}
-    .challenge-box{border:1px solid var(--border);background:#fbfdff;border-radius:16px;padding:14px}
-    .challenge-box label{display:block;font-weight:bold;color:#334155;margin-bottom:8px}
-    .challenge-box textarea,.challenge-box select{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:14px;font-size:15px;font-family:Arial,Helvetica,sans-serif;background:#fff}
-    .challenge-box textarea{min-height:120px;resize:vertical}
-    .helper-text{margin-top:10px;color:var(--muted);font-size:.95rem}
+    .img-atividade textarea{
+      width:100%;
+      min-height:90px;
+      border:2px solid #e6d58f;
+      border-radius:10px;
+      padding:10px;
+      font-size:14px;
+      font-family:Arial,Helvetica,sans-serif;
+      resize:vertical;
+      margin-top:8px;
+      background:#fffef9;
+      box-shadow:0 3px 10px rgba(242,201,76,.12);
+      transition:border-color .2s ease, box-shadow .2s ease, background .2s ease;
+    }
 
-    .student-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:12px}
-    .student-summary .mini{background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px 12px}
-    footer{text-align:center;color:var(--muted);padding:8px 16px 32px;font-size:.95rem}
+    .interactive-card{
+      border:1px solid var(--border);
+      border-radius:14px;
+      overflow:hidden;
+      background:#fff;
+      box-shadow:var(--shadow-soft);
+    }
 
-    .analysis-toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center;margin-top:20px}
-    .action-btn{border:none;border-radius:14px;padding:12px 18px;font-size:1rem;font-weight:bold;cursor:pointer;box-shadow:var(--shadow);transition:.2s}
-    .action-btn:hover{transform:translateY(-1px);opacity:.96}
-    .btn-primary{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff}
-    .btn-secondary{background:#fff;color:#334155;border:1px solid var(--border)}
-    .result-box{margin-top:18px;padding:16px 18px;border-radius:16px;background:#eef6ff;border:1px solid #bfdbfe;display:none}
+    .post-row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:18px;
+      margin-top:14px;
+    }
+
+    .post-head{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:14px 16px;
+      border-bottom:1px solid #e9eff6;
+      font-weight:700;
+      background:#f8fbff;
+      color:var(--primary);
+    }
+
+    .avatar{
+      width:36px;
+      height:36px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      color:#111;
+      font-weight:700;
+    }
+
+    .av-green{background:#b7e4c7}
+    .av-yellow{background:#ffe08a}
+
+    .news-image{
+      width:100%;
+      height:220px;
+      object-fit:cover;
+      display:block;
+      background:#eef3f8;
+      border-bottom:1px solid var(--border);
+    }
+
+    .post-caption{
+      padding:16px;
+      font-size:1.02rem;
+    }
+
+    .post-caption p{
+      margin:8px 0 0;
+    }
+
+    .post-footer{
+      padding:12px 16px 16px;
+      color:var(--muted);
+      font-size:.95rem;
+      border-top:1px solid #eef3f8;
+      background:#fcfdff;
+    }
+
+    .analysis-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:14px;
+      padding:0 16px 4px;
+    }
+
+    .analysis-btn{
+      border:none;
+      border-radius:10px;
+      padding:10px 14px;
+      font-weight:700;
+      cursor:pointer;
+      transition:.2s;
+    }
+
+    .btn-fato{background:var(--success);color:#fff}
+    .btn-fake{background:var(--danger);color:#fff}
+    .btn-duvidosa{background:var(--warning);color:#fff}
+
+    .analysis-btn:hover{
+      transform:translateY(-1px);
+      opacity:.96;
+    }
+
+    .feedback{
+      margin:14px 16px 0;
+      padding:12px 14px;
+      border-radius:10px;
+      font-weight:700;
+      display:none;
+    }
+
+    .feedback.show{display:block}
+    .feedback.fato{background:#edf8f0;color:#166534;border:1px solid #cbe7d2}
+    .feedback.fake{background:#fff2f0;color:#991b1b;border:1px solid #f0cfca}
+    .feedback.duvidosa{background:#fff8e7;color:#8a5408;border:1px solid #efd28c}
+
+    .justify-box{
+      margin:14px 16px 16px;
+      background:#fffdf6;
+      border:1px solid #f0e3b0;
+      border-left:5px solid var(--accent);
+      border-radius:12px;
+      padding:14px;
+      box-shadow:0 4px 12px rgba(242,201,76,.10);
+    }
+
+    .justify-box textarea,
+    .challenge-box textarea,
+    .challenge-box select,
+    .field input,
+    .field select,
+    .img-atividade textarea{
+      width:100%;
+      border:1.5px solid #c8d5e3;
+      border-radius:10px;
+      padding:12px 14px;
+      font-size:15px;
+      font-family:Arial,Helvetica,sans-serif;
+      background:#fcfdff;
+    }
+
+    .justify-box textarea,
+    .challenge-box textarea,
+    .img-atividade textarea{
+      border:2px solid #e6d58f;
+      background:#fffef9;
+      box-shadow:0 3px 10px rgba(242,201,76,.12);
+      transition:border-color .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .justify-box textarea,
+    .challenge-box textarea{
+      min-height:90px;
+      resize:vertical;
+    }
+
+    .justify-box textarea:focus,
+    .img-atividade textarea:focus,
+    .challenge-box textarea:focus,
+    .field input:focus,
+    .field select:focus{
+      outline:2px solid #c4d9ef;
+      border-color:var(--primary-2);
+    }
+
+    .justify-box textarea:focus,
+    .img-atividade textarea:focus,
+    .challenge-box textarea:focus{
+      outline:none;
+      border-color:var(--accent);
+      box-shadow:0 0 0 4px rgba(242,201,76,.22);
+      background:#ffffff;
+    }
+
+    .source-link{
+      display:inline-block;
+      margin-top:10px;
+      font-weight:700;
+      color:var(--primary-2);
+      text-decoration:none;
+    }
+
+    .source-link:hover{text-decoration:underline}
+
+    .list{
+      margin:10px 0 0;
+      padding-left:20px;
+    }
+
+    .student-form{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:14px;
+      margin-top:16px;
+      margin-bottom:18px;
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+
+    .field label{
+      font-weight:700;
+      color:#334155;
+    }
+
+    .field .fixed-date{
+      width:100%;
+      padding:12px 14px;
+      border:1.5px solid var(--border);
+      border-radius:10px;
+      font-size:15px;
+      font-family:Arial,Helvetica,sans-serif;
+      background:#f9fbfd;
+      min-height:48px;
+      display:flex;
+      align-items:center;
+      color:#1f2937;
+    }
+
+    .challenge-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:14px;
+      margin-top:16px;
+    }
+
+    .challenge-box{
+      border:1px solid #f0e3b0;
+      border-left:5px solid var(--accent);
+      background:#fffdf6;
+      border-radius:12px;
+      padding:14px;
+      box-shadow:0 4px 12px rgba(242,201,76,.10);
+    }
+
+    .challenge-box label{
+      display:block;
+      font-weight:700;
+      color:#334155;
+      margin-bottom:8px;
+    }
+
+    .img-atividade label,
+    .justify-box label,
+    .challenge-box label{
+      color:var(--primary);
+    }
+
+    .helper-text{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:.95rem;
+    }
+
+    .student-summary{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .student-summary .mini{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:10px 12px;
+    }
+
+    .analysis-toolbar{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:center;
+      margin-top:20px;
+    }
+
+    .action-btn{
+      border:none;
+      border-radius:10px;
+      padding:12px 18px;
+      font-size:1rem;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow:var(--shadow-soft);
+      transition:.2s;
+    }
+
+    .action-btn:hover{
+      transform:translateY(-1px);
+      opacity:.96;
+    }
+
+    .btn-primary{
+      background:var(--primary-2);
+      color:#fff;
+    }
+
+    .btn-secondary{
+      background:#fff;
+      color:#334155;
+      border:1px solid var(--border);
+    }
+
+    .result-box{
+      margin-top:18px;
+      padding:16px 18px;
+      border-radius:12px;
+      background:#eef6ff;
+      border:1px solid #bfdbfe;
+      display:none;
+    }
+
     .result-box.show{display:block}
-    .result-box.error{background:#fff1f2;border-color:#fecdd3;color:#9f1239}
-    .answer-summary{display:grid;gap:14px;margin-top:14px}
-    .answer-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:14px 16px}
-    .answer-card h3{margin:0 0 8px;color:#4a3ff0;font-size:1.08rem}
-    .answer-meta{font-weight:bold;margin-bottom:8px;color:#334155}
-    .char-count{font-size:.9rem;color:var(--muted);text-align:right;margin-top:6px}
-    .char-count.ok{color:#166534;font-weight:bold}
+    .result-box.error{
+      background:#fff1f2;
+      border-color:#fecdd3;
+      color:#9f1239;
+    }
+
+    .answer-summary{
+      display:grid;
+      gap:14px;
+      margin-top:14px;
+    }
+
+    .answer-card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:14px 16px;
+    }
+
+    .answer-card h3{
+      margin:0 0 8px;
+      color:var(--primary);
+      font-size:1.08rem;
+    }
+
+    .answer-meta{
+      font-weight:700;
+      margin-bottom:8px;
+      color:#334155;
+    }
+
+    .char-count{
+      font-size:.9rem;
+      color:var(--muted);
+      text-align:right;
+      margin-top:6px;
+    }
+
+    .char-count.ok{
+      color:#166534;
+      font-weight:700;
+    }
+
+    footer{
+      margin-top:26px;
+      background:#0b2e5b;
+      color:#e8f0f8;
+      border-top:4px solid var(--accent);
+    }
+
+    .footer-wrap{
+      max-width:1180px;
+      margin:0 auto;
+      padding:18px 16px 24px;
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:16px;
+      align-items:center;
+    }
+
+    .footer-left strong{
+      display:block;
+      font-size:1rem;
+      color:#ffffff;
+      margin-bottom:6px;
+    }
+
+    .footer-left p{
+      margin:0;
+      font-size:.92rem;
+      color:#d9e5f1;
+    }
+
+    .footer-right{
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .footer-pill{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      color:#f8fbff;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:.82rem;
+      font-weight:700;
+    }
+
     .print-analysis-report{display:none}
     .print-header{display:none}
     .print-student-info{display:none}
     .print-ref{display:none}
+
     @page{size:A4;margin:1.2cm}
+
     @media print{
       :root{--text:#111827;--border:#cbd5e1;--card:#fff}
       body{background:#fff;color:#111;font-size:12pt;line-height:1.4}
-      header,footer,.print-header,.grid-2,.analysis,.checklist,.truth,.callout,.helper-text,.result-box,.no-print{display:none !important}
+      .govbar,.topbar,header,.aula-identidade,footer,.print-header,.grid-2,.analysis,.checklist,.truth,.callout,.helper-text,.result-box,.no-print{display:none !important}
       main{max-width:100%;margin:0;padding:0}
       main > section{display:none !important}
       #investigationSection{display:block !important;margin:0;padding:0;border:none !important;box-shadow:none !important;background:#fff !important}
@@ -152,86 +884,125 @@
       #investigationSection .field,.challenge-box{margin-bottom:10px}
     }
 
+    @media (max-width:900px){
+      .aula-box{
+        grid-template-columns:1fr;
+      }
+
+      .footer-wrap{
+        grid-template-columns:1fr;
+      }
+
+      .footer-right{
+        justify-content:flex-start;
+      }
+    }
+
     @media (max-width:860px){
       .grid-2{grid-template-columns:1fr}
-      header{padding:48px 16px 40px}
+      header{padding:16px 16px 30px}
       .hero-grid{grid-template-columns:1fr;gap:18px}
-      .logo{width:96px;justify-self:start}
       h1{line-height:1.18}
+      .logos-topo{
+        justify-self:start;
+        flex-direction:row;
+        gap:10px;
+        padding:8px 10px;
+      }
+      .logo-secundaria,
+      .logo-principal{
+        width:82px;
+      }
+      .hero-meta{
+        padding-bottom:14px;
+        margin-bottom:18px;
+      }
+      .govbar .wrap{
+        justify-content:center;
+      }
     }
-  
-
-  .logo-secundaria{width:85px;}
-  .logo-principal{width:70px;}
-}
-
-
-.logos-topo{
-  position:absolute;
-  top:18px;
-  right:22px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:10px;
-  z-index:1000;
-  background:rgba(255,255,255,.12);
-  padding:10px 12px;
-  border-radius:18px;
-  backdrop-filter:blur(2px);
-}
-
-.logos-topo img{
-  display:block;
-  height:auto;
-  object-fit:contain;
-  filter:drop-shadow(0 2px 6px rgba(0,0,0,.18));
-}
-
-.logo-secundaria{
-  width:108px;
-}
-
-.logo-principal{
-  width:108px;
-}
-
-@media (max-width:860px){
-  .logos-topo{
-    top:10px;
-    right:10px;
-    gap:6px;
-    padding:8px 9px;
-    border-radius:14px;
-  }
-
-  .logo-secundaria,
-  .logo-principal{
-    width:82px;
-  }
-}
-
-</style>
+  </style>
 </head>
 <body>
+  <div class="govbar">
+    <div class="wrap">
+      <div class="govbar-left">Ambiente de material didático digital</div>
+      <div class="govbar-right">
+        <span>Aula estruturada</span>
+        <span>Leitura crítica</span>
+        <span>Cidadania digital</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="topbar">
+    Material digital interativo para uso pedagógico em sala, laboratório ou projeção orientada
+  </div>
+
   <header>
-    <div class="wrap hero-grid">
-      <div class="hero-copy">
-        <h1>🎯 Educação Midiática<br>Desvendando Fake News</h1>
-        <div class="subtitle">Aqui você vai aprender a investigar, desconfiar e pensar antes de clicar em “compartilhar”.</div>
-        <div class="badges">
-          <span class="badge">📱 Mídias digitais</span>
-          <span class="badge">🧠 Confiabilidade</span>
-          <span class="badge">⚖️ Ética na internet</span>
-          <span class="badge">🔁 Curtidas e compartilhamentos</span>
+    <div class="wrap">
+      <div class="hero-meta">
+        <div class="hero-meta-left">
+          <span class="hero-chip">📘 Língua, mídia e pensamento crítico</span>
+          <span class="hero-chip">🏫 Uso escolar orientado</span>
+          <span class="hero-chip">🧠 Análise de confiabilidade</span>
         </div>
       </div>
-      <div class="logos-topo">
-  <img src="toledo.png" class="logo-secundaria">
-  <img src="jacson.jpg" class="logo-principal">
-</div>
+
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <span class="hero-kicker">Aula Interativa Institucional</span>
+          <h1>🎯 Educação Midiática<br>Desvendando Fake News</h1>
+          <div class="subtitle">
+            Aqui você vai aprender a investigar, desconfiar e pensar antes de clicar em “compartilhar”.
+          </div>
+          <div class="badges">
+            <span class="badge">📱 Mídias digitais</span>
+            <span class="badge">🧠 Confiabilidade</span>
+            <span class="badge">⚖️ Ética na internet</span>
+            <span class="badge">🔁 Curtidas e compartilhamentos</span>
+          </div>
+        </div>
+
+        <div class="logos-topo">
+          <img src="toledo.png" class="logo-secundaria" alt="Logo Toledo">
+          <img src="jacson.jpg" class="logo-principal" alt="Logo Jacson">
+        </div>
+      </div>
     </div>
   </header>
+
+  <section class="aula-identidade">
+    <div class="aula-box">
+      <div>
+        <h2>Identificação da aula</h2>
+        <p>
+          Material organizado em linguagem institucional, com foco em leitura crítica,
+          verificação de informações e responsabilidade no compartilhamento digital.
+        </p>
+      </div>
+
+      <div class="aula-meta">
+        <div class="meta-item">
+          <strong>Componente</strong>
+          <span>Educação Digital / Robótica</span>
+        </div>
+        <div class="meta-item">
+          <strong>Formato</strong>
+          <span>Página interativa guiada</span>
+        </div>
+        <div class="meta-item">
+          <strong>Objetivo</strong>
+          <span>Analisar confiabilidade</span>
+        </div>
+        <div class="meta-item">
+          <strong>Produto final</strong>
+          <span>Relatório em PDF</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <main>
     <section class="print-header">
       <h1>Educação Midiática – Desvendando Fake News</h1>
@@ -244,8 +1015,10 @@
         </ol>
       </div>
     </section>
+
     <section class="grid-2">
       <article class="card">
+        <span class="section-tag">Introdução</span>
         <h2>💥 Fato ou Fake? Você realmente sabe identificar?</h2>
         <p>Todos os dias você vê notícias, vídeos, posts e mensagens no celular. Mas pare um segundo e pense:</p>
         <div class="callout">👉 Você já compartilhou algo sem saber se era verdade?<br>👉 Já acreditou em algo só porque muita gente comentou ou curtiu?</div>
@@ -260,7 +1033,9 @@
         </ul>
         <div class="callout"><strong>Ideia central:</strong> na internet, nem tudo é verdade. Quem não questiona pode acabar espalhando fake news sem perceber.</div>
       </article>
+
       <aside class="card">
+        <span class="section-tag">Objetivos</span>
         <h2>🎯 O que a aula propõe</h2>
         <ul class="list">
           <li>Analisar postagens para avaliar sua confiabilidade.</li>
@@ -272,7 +1047,7 @@
         <p class="img-legenda">
           🔍 Assim como em um tribunal, analisar informações exige provas, contexto e responsabilidade.
           <br><br>
-          🔗 <a href="https://www.tre-pr.jus.br/comunicacao/noticias/2022/Outubro/midia-nacional-repercute-checagens-do-tre-pr-no-gralha-confere" target="_blank" class="fonte-link">Acesse a fonte da imagem</a>
+          🔗 <a href="https://www.tre-pr.jus.br/comunicacao/noticias/2022/Outubro/midia-nacional-repercute-checagens-do-tre-pr-no-gralha-confere" target="_blank" class="source-link">Acesse a fonte da imagem</a>
         </p>
         <div class="img-atividade">
           <strong>💡 Atividade guiada (obrigatória):</strong>
@@ -284,7 +1059,9 @@
         </div>
       </aside>
     </section>
+
     <section class="card">
+      <span class="section-tag">Compreensão</span>
       <h2>💥 Por que esse tipo de postagem viraliza?</h2>
       <div class="analysis">
         <div class="item"><h3>🚨 Sensacionalismo</h3>Notícias exageradas chamam atenção porque parecem impressionantes, urgentes ou chocantes.</div>
@@ -293,7 +1070,9 @@
         <div class="item"><h3>⚠️ Risco</h3>Conteúdos falsos ou manipulados podem circular como se fossem verdadeiros.</div>
       </div>
     </section>
+
     <section class="card">
+      <span class="section-tag">Critérios</span>
       <h2>🧠 Como analisar uma postagem</h2>
       <div class="checklist">
         <div class="check"><strong>1. Fonte confiável?</strong>O perfil, jornal, site ou pessoa que publicou é reconhecido e confiável?</div>
@@ -305,8 +1084,10 @@
         <div class="check"><strong>7. Eu compartilharia?</strong>Essa postagem informa ou pode espalhar desinformação e prejudicar alguém?</div>
       </div>
     </section>
+
     <section class="grid-2">
       <article class="card">
+        <span class="section-tag">Classificação</span>
         <h2>📊 Classificação</h2>
         <div class="truth">
           <div class="box v"><strong>✔ Verdadeira</strong><br>Após pesquisar em outras fontes, não há indícios de invenção ou manipulação.</div>
@@ -314,7 +1095,9 @@
           <div class="box d"><strong>⚠️ Duvidosa</strong><br>Mistura elementos reais com exageros, lacunas, distorções ou vieses.</div>
         </div>
       </article>
+
       <article class="card">
+        <span class="section-tag">Ética digital</span>
         <h2>🚨 Antes de compartilhar… pense!</h2>
         <div class="callout">📱 Você não é só usuário da internet…<br>👉 você também é responsável pelo que circula nela.</div>
         <p>Cada curtida, comentário ou compartilhamento pode levar uma informação ainda mais longe. E aí vem a pergunta:</p>
@@ -329,9 +1112,11 @@
     </section>
 
     <section class="card" id="investigationSection">
+      <span class="section-tag">Prática</span>
       <h2>📲 Hora de investigar: fato ou fake?</h2>
       <p>Agora é com você. Observe com atenção, leia a notícia e analise:</p>
       <div class="callout">👉 Isso é <strong>fato</strong> ou <strong>fake</strong>?<br>👉 Quais pistas ajudam você a chegar nessa conclusão?</div>
+
       <div class="student-form">
         <div class="field">
           <label for="studentName">🧾 Nome do aluno</label>
@@ -359,7 +1144,9 @@
           <div id="activityDate" class="fixed-date" aria-live="polite"></div>
         </div>
       </div>
+
       <section id="printStudentInfo" class="print-student-info"></section>
+
       <div class="post-row">
         <article class="interactive-card">
           <div class="post-head"><div class="avatar av-green">🔍</div><strong>Análise 1</strong></div>
@@ -382,6 +1169,7 @@
             <div class="char-count" id="count-j1">0 caracteres</div>
           </div>
         </article>
+
         <article class="interactive-card">
           <div class="post-head"><div class="avatar av-yellow">⚠️</div><strong>Análise 2</strong></div>
           <img src="felca.jpg" alt="Imagem da notícia sobre bloqueio de iPhones" class="news-image">
@@ -404,7 +1192,9 @@
           </div>
         </article>
       </div>
+
       <div class="callout"><strong>💥 Desafio final:</strong> agora vá além da justificativa de cada notícia e faça uma síntese crítica do que você observou nas duas análises.</div>
+
       <div class="challenge-grid">
         <div class="challenge-box">
           <label for="d1">👉 Entre as pistas analisadas, qual foi a mais importante para perceber se a notícia era confiável?</label>
@@ -419,21 +1209,39 @@
           <textarea id="d3" placeholder="Explique se você compartilharia ou não e por quê..."></textarea>
         </div>
       </div>
+
       <div class="helper-text">Preencha seus dados, marque a classificação das notícias, escreva respostas completas e depois clique em Gerar PDF. A data do dia aparece automaticamente.</div>
+
       <div class="analysis-toolbar no-print">
         <button class="action-btn btn-primary" type="button" onclick="gerarPDF()">🖨️ Gerar PDF</button>
       </div>
+
       <div id="resultadoAnalise" class="result-box"></div>
       <section id="printAnalysisReport" class="print-analysis-report"></section>
     </section>
 
     <section class="card">
+      <span class="section-tag">Fechamento</span>
       <h2>📌 Conclusão</h2>
       <p>A principal mensagem da aula é simples e poderosa: pensar antes de acreditar e verificar antes de compartilhar. Em uma sociedade conectada, educação midiática não é detalhe, mas uma competência essencial para participar do mundo digital de maneira crítica, ética e responsável.</p>
       <p>Na sequência didática, a próxima etapa é criar um post responsável, aplicando os critérios estudados e respeitando a verdade e os direitos dos usuários.</p>
     </section>
   </main>
-  <footer>Página educativa produzida a partir da aula 09, LRCO  - ED DIG COMP PROG E ROBOTICA.</footer>
+
+  <footer>
+    <div class="footer-wrap">
+      <div class="footer-left">
+        <strong>Página educativa produzida a partir da aula 09</strong>
+        <p>LRCO • Educação Digital, Computação, Programação e Robótica • Modelo institucional com uso pedagógico orientado.</p>
+      </div>
+      <div class="footer-right">
+        <span class="footer-pill">Formato escolar</span>
+        <span class="footer-pill">Leitura crítica</span>
+        <span class="footer-pill">Uso responsável da internet</span>
+      </div>
+    </div>
+  </footer>
+
   <script>
     function analisarResposta(id, tipo) {
       const box = document.getElementById(id);
